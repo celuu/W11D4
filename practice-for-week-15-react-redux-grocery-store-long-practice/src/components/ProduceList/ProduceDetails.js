@@ -1,14 +1,20 @@
 import {useDispatch} from "react-redux"
 import { addItem } from "../../store/cart";
+import { like } from "../../store/produce";
 
 function ProduceDetails({ produce }) {
   const cartItem = {};
 
   const dispatch = useDispatch()
 
-  const handleClick = (e) => {
+  const addToCart = (e) => {
     e.preventDefault()
     dispatch(addItem(produce.id))
+  }
+
+  const handleLike = (e) => {
+    e.preventDefault()
+    dispatch(like(produce.id))
   }
 
   return (
@@ -17,12 +23,13 @@ function ProduceDetails({ produce }) {
       <span>
         <button
           className={"like-button" + (produce.liked ? " selected" : "")}
+          onClick={handleLike}
         >
           <i className={"fas fa-heart"} />
         </button>
         <button
           className={"plus-button" + (cartItem ? " selected" : "")}
-          onClick={handleClick}
+          onClick={addToCart}
         >
           <i className="fas fa-plus" />
         </button>
