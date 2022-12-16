@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'; 
 import { useDispatch } from 'react-redux';
-import { removeItem } from '../../store/cart';
+import { incrementItem, decrementItem, removeItem } from '../../store/cart';
 
 function CartItem({ item }) {
   const [count, setCount] = useState(item.count);
@@ -11,6 +11,19 @@ function CartItem({ item }) {
     setCount(item.count);
   }, [item.count]);
 
+  const incrementCount = (e) => {
+    e.preventDefault()
+    dispatch(incrementItem(item.id))
+  }
+
+  const decrementCount = (e) => {
+    e.preventDefault()
+    if (item.count === 1) {
+      dispatch(removeItem(item.id))
+    } else {
+      dispatch(decrementItem(item.id))
+    }
+  }
 
   const clickToDelete = (e) => {
     e.preventDefault()
@@ -24,14 +37,17 @@ function CartItem({ item }) {
         <input
           type="number"
           value={count}
+          onChange={e => setCount(e.target.value)}
         />
         <button
           className="cart-item-button"
+          onClick={incrementCount}
         >
           +
         </button>
         <button
           className="cart-item-button"
+          onClick={decrementCount}
         >
           -
         </button>
